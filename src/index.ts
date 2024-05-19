@@ -27,14 +27,14 @@ app.post("/buy-asset", (req,res) => {
 app.post("/sell-asset", (req,res) => {
     const product = ETH_BALANCE*USDC_BALANCE;
     const quantity = req.body.quantity;
-    const updatedUsdcBalance = USDC_BALANCE-quantity;
-    const updatedEthQuantity = product/updatedUsdcBalance; // ETH_BALANCE*USDC_BALANCE/updatedEthQuantity
-    const paidAmount = updatedEthQuantity - ETH_BALANCE;
+    const updatedEthQuantity = ETH_BALANCE+quantity;
+    const updatedUsdcBalance = product/updatedEthQuantity; // ETH_BALANCE*USDC_BALANCE/updatedEthQuantity
+    const gottenUsdc = USDC_BALANCE - updatedUsdcBalance;
 
     ETH_BALANCE =updatedEthQuantity;
     USDC_BALANCE = updatedUsdcBalance;
     res.json({
-        message: `You sold ${paidAmount} ETH for ${quantity} USDC`
+        message: `You sold ${quantity} ETH for ${gottenUsdc} USDC`
     })
 })
 
